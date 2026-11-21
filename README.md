@@ -18,4 +18,4 @@
 
 
 ## SQL Table playground
-The SQL Table tool currently provides a browser-local playground with sample tables, table creation, row insertion/deletion, search, CSV export, and a limited read-only SELECT query parser. Data is saved in localStorage on the current browser only. It is not connected to Supabase or a remote database, and the query console does not execute arbitrary SQL.
+The SQL Table tool currently provides a browser-local playground with sample tables, table creation, row insertion/editing/deletion, search, CSV export, and a limited read-only SELECT query parser. Data is saved in localStorage on the current browser only. It is not connected to Supabase or a remote database, and the query console does not execute arbitrary SQL.
