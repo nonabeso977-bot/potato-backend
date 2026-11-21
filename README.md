@@ -15,3 +15,7 @@
 
 ## غير المنفذ بعد
 لا يوجد اتصال بـ Supabase أو Backend مستقل، ولا توجد عمليات SQL أو إدارة مفاتيح حقيقية. الحقول المعطلة مجرد أماكن مخصصة للمرحلة التالية. لا تضعي أسراراً حقيقية داخل ملفات الواجهة.
+
+
+## SQL Table playground
+The SQL Table tool currently provides a browser-local playground with sample tables, table creation, row insertion/deletion, search, CSV export, and a limited read-only SELECT query parser. Data is saved in localStorage on the current browser only. It is not connected to Supabase or a remote database, and the query console does not execute arbitrary SQL.
