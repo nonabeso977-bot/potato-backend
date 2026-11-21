@@ -103,14 +103,14 @@ function wireSqlTool(){
   document.getElementById('exportCsv').onclick=()=>{
     const table=sqlData[activeSqlTable];if(!table)return;
     const quote=value=>'"'+String(value??'').replace(/"/g,'""')+'"';
-    const csv=[table.columns.map(quote).join(','),...table.rows.map(row=>table.columns.map(col=>quote(row[col])).join(','))].join('\\r\\n');
-    const url=URL.createObjectURL(new Blob(['\\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
+    const csv=[table.columns.map(quote).join(','),...table.rows.map(row=>table.columns.map(col=>quote(row[col])).join(','))].join('\r\n');
+    const url=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
     const a=document.createElement('a');a.href=url;a.download=activeSqlTable+'.csv';a.click();URL.revokeObjectURL(url);
   };
   document.getElementById('runSql').onclick=()=>{
     const query=document.getElementById('sqlQuery').value.trim();
     const status=document.getElementById('sqlQueryStatus');const result=document.getElementById('sqlQueryResult');
-    const match=query.match(/^SELECT\\s+\\*\\s+FROM\\s+([A-Za-z_][A-Za-z0-9_]*)(?:\\s+WHERE\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*=\\s*'([^']*)')?\\s*;?$/i);
+    const match=query.match(/^SELECT\s+\\*\s+FROM\s+([A-Za-z_][A-Za-z0-9_]*)(?:\s+WHERE\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*'([^']*)')?\s*;?$/i);
     if(!match){status.textContent='صيغة غير مدعومة في المختبر.';result.hidden=true;return;}
     const table=sqlData[match[1]];if(!table){status.textContent='الجدول غير موجود.';result.hidden=true;return;}
     if(match[2]&&!table.columns.includes(match[2])){status.textContent='العمود غير موجود.';result.hidden=true;return;}
