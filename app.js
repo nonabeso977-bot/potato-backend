@@ -110,7 +110,7 @@ function wireSqlTool(){
   document.getElementById('runSql').onclick=()=>{
     const query=document.getElementById('sqlQuery').value.trim();
     const status=document.getElementById('sqlQueryStatus');const result=document.getElementById('sqlQueryResult');
-    const match=query.match(/^SELECT\s+\\*\s+FROM\s+([A-Za-z_][A-Za-z0-9_]*)(?:\s+WHERE\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*'([^']*)')?\s*;?$/i);
+    const match=query.match(/^SELECT\s+\*\s+FROM\s+([A-Za-z_][A-Za-z0-9_]*)(?:\s+WHERE\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*'([^']*)')?\s*;?$/i);
     if(!match){status.textContent='صيغة غير مدعومة في المختبر.';result.hidden=true;return;}
     const table=sqlData[match[1]];if(!table){status.textContent='الجدول غير موجود.';result.hidden=true;return;}
     if(match[2]&&!table.columns.includes(match[2])){status.textContent='العمود غير موجود.';result.hidden=true;return;}
