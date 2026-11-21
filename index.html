@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#101827" />
+  <title>Potato Backend</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><div class="brand-mark">P</div><div><strong>Potato Backend</strong><small>مساحة إدارة مشروعك</small></div></div>
+      <div class="top-actions">
+        <button class="icon-btn" id="searchOpen" aria-label="بحث" title="بحث عام">⌕</button>
+        <span class="status"><i></i> محلياً</span>
+      </div>
+    </header>
+
+    <main id="mainContent" class="main-content">
+      <section class="page active" id="page-data" data-page="data">
+        <div class="page-heading"><div><p class="eyebrow">نظرة عامة</p><h1>بيانات المشروع</h1><p class="muted">البنية الأساسية والعناصر المرتبطة بمشروعك.</p></div><button class="primary-btn" id="refreshBtn">↻ تحديث العرض</button></div>
+        <div class="project-strip"><div><span class="muted">المشروع الحالي</span><h2>ORBIT ARCADE</h2><span class="project-id">PROJECT · LOCAL PREVIEW</span></div><div class="project-badge">● واجهة تجريبية</div></div>
+        <div class="section-title"><h3>مخطط المشروع</h3><span class="muted">اضغط على أي عنصر للتفاصيل</span></div>
+        <div class="schema-wrap">
+          <button class="schema-node root-node" data-detail="قاعدة بيانات المشروع هي نقطة الربط الرئيسية بين الجداول والمستخدمين وواجهات API والتخزين."><span class="node-icon">▦</span><span><b>Project Database</b><small>قاعدة بيانات المشروع</small></span><span class="node-arrow">⌄</span></button>
+          <div class="schema-branches">
+            <button class="schema-node" data-detail="الجداول: مساحة لاستعراض الجداول والسجلات والعلاقات بينها. الربط الفعلي سيضاف في المرحلة التالية."><span class="node-icon">▤</span><span><b>Tables</b><small>الجداول والسجلات</small></span></button>
+            <button class="schema-node" data-detail="المستخدمون: إعدادات الحسابات وبيانات الملفات الشخصية والمصادقة."><span class="node-icon">♙</span><span><b>Users</b><small>المستخدمون</small></span></button>
+            <button class="schema-node" data-detail="API: إعدادات نقاط الاتصال والمفاتيح العامة وطرق الوصول."><span class="node-icon">⌘</span><span><b>API</b><small>واجهات الربط</small></span></button>
+            <button class="schema-node" data-detail="Storage: مساحة ملفات المشروع وبيانات التخزين."><span class="node-icon">▣</span><span><b>Storage</b><small>الملفات والتخزين</small></span></button>
+          </div>
+        </div>
+        <div class="stats-grid"><article class="stat-card"><span class="muted">الجداول</span><strong>—</strong><small>بانتظار الربط</small></article><article class="stat-card"><span class="muted">المستخدمون</span><strong>—</strong><small>بانتظار الربط</small></article><article class="stat-card"><span class="muted">الملفات</span><strong>—</strong><small>بانتظار الربط</small></article></div>
+      </section>
+
+      <section class="page" id="page-tools" data-page="tools">
+        <div class="page-heading"><div><p class="eyebrow">مساحة العمل</p><h1>أدوات العمل</h1><p class="muted">كل أداة في مساحة مستقلة.</p></div></div>
+        <div class="tools-grid">
+          <button class="tool-card" data-tool="secrets"><span class="tool-icon violet">⌑</span><b>Secret Tools</b><small>المفاتيح والبيانات السرية</small><span class="card-go">فتح الأداة ←</span></button>
+          <button class="tool-card" data-tool="general"><span class="tool-icon blue">⌘</span><b>General Tools</b><small>المفاتيح العامة وإعدادات الربط</small><span class="card-go">فتح الأداة ←</span></button>
+          <button class="tool-card" data-tool="sql"><span class="tool-icon green">▤</span><b>SQL Table</b><small>الجداول والسجلات والاستعلامات</small><span class="card-go">فتح الأداة ←</span></button>
+          <button class="tool-card" data-tool="editor"><span class="tool-icon orange">{ }</span><b>Code Editor</b><small>كتابة وتحرير ملفات المشروع</small><span class="card-go">فتح الأداة ←</span></button>
+        </div>
+        <div class="notice"><span>ⓘ</span><p>هذه نسخة واجهة أولية. الأدوات تعرض حالياً واجهات تجريبية ولا تتصل بخادم أو قاعدة بيانات بعد.</p></div>
+      </section>
+
+      <section class="page" id="page-settings" data-page="settings">
+        <div class="page-heading"><div><p class="eyebrow">التخصيص</p><h1>الإعدادات</h1><p class="muted">تحكم في مظهر مساحة العمل.</p></div></div>
+        <article class="settings-card"><div><b>المظهر</b><p class="muted">اختاري طريقة عرض التطبيق.</p></div><div class="theme-options" role="group" aria-label="المظهر"><button data-theme="dark" class="selected">داكن</button><button data-theme="light">فاتح</button><button data-theme="system">النظام</button></div></article>
+        <article class="settings-card"><div><b>معلومات النسخة</b><p class="muted">Potato Backend · واجهة أولية 0.1</p></div><span class="version-tag">LOCAL PREVIEW</span></article>
+        <article class="settings-card"><div><b>الاتصال بالخادم</b><p class="muted">لم يتم إعداد اتصال بعد.</p></div><span class="pending-tag">غير متصل</span></article>
+      </section>
+
+      <section class="page" id="page-tool-detail" data-page="tool-detail">
+        <div class="page-heading"><div><button class="back-btn" id="backTools">← العودة للأدوات</button><p class="eyebrow" id="toolEyebrow">أداة</p><h1 id="toolTitle">الأداة</h1><p class="muted" id="toolDescription"></p></div></div>
+        <div id="toolWorkspace" class="workspace"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="التنقل الرئيسي">
+      <button data-nav="settings"><span>⚙</span><small>الإعدادات</small></button>
+      <button data-nav="tools"><span>▦</span><small>أدوات العمل</small></button>
+      <button data-nav="data" class="active"><span>◫</span><small>البيانات</small></button>
+    </nav>
+  </div>
+
+  <div class="modal-backdrop" id="detailModal" hidden><div class="modal"><button class="modal-close" data-close="detailModal">×</button><p class="eyebrow">تفاصيل العنصر</p><h2 id="detailTitle">العنصر</h2><p id="detailText" class="muted"></p><button class="primary-btn" data-close="detailModal">حسناً</button></div></div>
+  <div class="modal-backdrop" id="searchModal" hidden><div class="modal search-modal"><button class="modal-close" data-close="searchModal">×</button><p class="eyebrow">بحث عام</p><h2>ابحثي في مساحة العمل</h2><input id="globalSearch" type="search" placeholder="مثلاً: SQL أو المفاتيح أو المظهر" autocomplete="off" /><div id="searchResults" class="search-results"><p class="muted">ابدئي بكتابة اسم الأداة أو القسم.</p></div></div></div>
+  <script src="app.js"></script>
+</body>
+</html>
