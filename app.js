@@ -49,6 +49,7 @@ function loadSqlData(){
 function saveSqlData(){localStorage.setItem(SQL_STORAGE_KEY,JSON.stringify(sqlData));}
 function safeText(value){return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));}
 let activeSqlTable='';
+let editingSqlRow=null;
 function wireSqlTool(){
   loadSqlData();
   const list=document.getElementById('sqlTableList');
@@ -69,7 +70,14 @@ function wireSqlTool(){
     const query=search.value.trim().toLowerCase();
     const rows=table.rows.map((row,index)=>({row,index})).filter(item=>!query||table.columns.some(col=>String(item.row[col]??'').toLowerCase().includes(query)));
     head.innerHTML='<tr>'+table.columns.map(col=>'<th>'+safeText(col)+'</th>').join('')+'<th>إجراء</th></tr>';
-    body.innerHTML=rows.map(({row,index})=>'<tr>'+table.columns.map(col=>'<td>'+safeText(row[col])+'</td>').join('')+'<td><button type="button" class="row-delete" data-delete-row="'+index+'" aria-label="حذف السجل">حذف</button></td></tr>').join('');
+    body.innerHTML=rows.map(({row,index})=>'<tr>'+table.columns.map(col=>'<td>'+safeText(row[col])+'</td>').join('')+'<td><div class="row-actions"><button type="button" class="row-edit" data-edit-row="'+index+'">تعديل</button><button type="button" class="row-delete" data-delete-row="'+index+'">حذف</button></div></td></tr>').join('');
+    body.querySelectorAll('[data-edit-row]').forEach(button=>button.addEventListener('click',()=>{
+      const index=Number(button.dataset.editRow);const selected=table.rows[index];if(!selected)return;
+      document.getElementById('newRowFields').innerHTML=table.columns.filter(col=>col!=='id').map(col=>'<label class="field"><span>'+safeText(col)+'</span><input name="'+safeText(col)+'" value="'+safeText(selected[col]??'')+'" placeholder="'+safeText(col)+'"></label>').join('');
+      table.columns.filter(col=>col!=='id').forEach(col=>{const input=addForm.elements.namedItem(col);if(input)input.value=selected[col]??'';});
+      editingSqlRow=index;addForm.hidden=false;addForm.querySelector('[type="submit"]').textContent='حفظ التعديلات';
+      addForm.scrollIntoView({behavior:'smooth',block:'center'});
+    }));
     body.querySelectorAll('[data-delete-row]').forEach(button=>button.addEventListener('click',()=>{const index=Number(button.dataset.deleteRow);if(!Number.isInteger(index)||!confirm('حذف هذا السجل؟'))return;table.rows.splice(index,1);saveSqlData();renderAll();}));
     document.getElementById('sqlActiveName').textContent=activeSqlTable||'لا توجد جداول';
     document.getElementById('sqlRowCount').textContent=table.rows.length+' سجل';
@@ -88,16 +96,23 @@ function wireSqlTool(){
   };
   document.getElementById('addRowToggle').onclick=()=>{
     const table=sqlData[activeSqlTable];if(!table)return;
+    editingSqlRow=null;addForm.querySelector('[type="submit"]').textContent='إضافة السجل';
     document.getElementById('newRowFields').innerHTML=table.columns.filter(c=>c!=='id').map(col=>'<label class="field"><span>'+safeText(col)+'</span><input name="'+safeText(col)+'" placeholder="'+safeText(col)+'"></label>').join('');
     addForm.hidden=!addForm.hidden;
   };
-  document.getElementById('cancelNewRow').onclick=()=>{addForm.hidden=true;};
+  document.getElementById('cancelNewRow').onclick=()=>{editingSqlRow=null;addForm.reset();addForm.hidden=true;addForm.querySelector('[type="submit"]').textContent='إضافة السجل';};
   addForm.onsubmit=event=>{
     event.preventDefault();const table=sqlData[activeSqlTable];if(!table)return;
-    const row={};const idCol=table.columns.includes('id');
-    if(idCol)row.id=table.rows.reduce((max,item)=>Math.max(max,Number(item.id)||0),0)+1;
-    table.columns.forEach(col=>{if(col!=='id')row[col]=addForm.elements.namedItem(col)?.value.trim()||'';});
-    table.rows.push(row);saveSqlData();addForm.reset();addForm.hidden=true;renderAll();
+    const row={};
+    if(editingSqlRow!==null&&table.rows[editingSqlRow]){
+      const existing=table.rows[editingSqlRow];table.columns.forEach(col=>{row[col]=col==='id'?existing[col]:(addForm.elements.namedItem(col)?.value.trim()||'');});
+      table.rows[editingSqlRow]=row;
+    }else{
+      if(table.columns.includes('id'))row.id=table.rows.reduce((max,item)=>Math.max(max,Number(item.id)||0),0)+1;
+      table.columns.forEach(col=>{if(col!=='id')row[col]=addForm.elements.namedItem(col)?.value.trim()||'';});
+      table.rows.push(row);
+    }
+    editingSqlRow=null;saveSqlData();addForm.reset();addForm.hidden=true;addForm.querySelector('[type="submit"]').textContent='إضافة السجل';renderAll();
   };
   search.oninput=renderRows;
   document.getElementById('exportCsv').onclick=()=>{
